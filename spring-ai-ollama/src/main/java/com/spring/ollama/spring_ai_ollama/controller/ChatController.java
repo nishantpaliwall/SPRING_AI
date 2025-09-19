@@ -1,6 +1,7 @@
 package com.spring.ollama.spring_ai_ollama.controller;
 
-import org.springframework.ai.chat.client.ChatClient;
+import com.spring.ollama.spring_ai_ollama.service.OllamaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,15 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ChatController {
 
-    private ChatClient chatClient;
-
-    public ChatController(ChatClient.Builder builder) {
-        this.chatClient = builder.build();
-    }
-
+    @Autowired
+    private OllamaService ollamaServiceImpl;
     @GetMapping("/chat")
     public ResponseEntity<String> chat(@RequestParam(value="question") String question) {
-        String answer= chatClient.prompt(question).call().content();
+        String answer= ollamaServiceImpl.getResponse(question);
         return ResponseEntity.ok().body(answer);
     }
 }
