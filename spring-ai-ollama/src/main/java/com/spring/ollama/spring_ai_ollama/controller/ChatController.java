@@ -15,8 +15,15 @@ public class ChatController {
     @Autowired
     private OllamaService ollamaServiceImpl;
     @GetMapping("/chat")
-    public ResponseEntity<String> chat(@RequestParam(value="question") String question) {
-        String answer= ollamaServiceImpl.getResponse(question);
+    public ResponseEntity<String> chat(
+            @RequestParam(value="question") String question,
+            @RequestParam(value="system", required = false) String system) {
+        String answer;
+        if (system == null || system.isEmpty()) {
+            answer = ollamaServiceImpl.getResponse(question);
+        } else {
+            answer = ollamaServiceImpl.getResponseWithSystem(system, question);
+        }
         return ResponseEntity.ok().body(answer);
     }
 }
