@@ -1,0 +1,28 @@
+# version: "3.9"
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: spring_ai-postgres
+    environment:
+      POSTGRES_DB: spring_ai_db
+      POSTGRES_USER: spring_user
+      POSTGRES_PASSWORD: Postgres@9899!
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: spring_ai-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@springai.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:

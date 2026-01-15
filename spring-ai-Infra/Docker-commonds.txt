@@ -1,0 +1,7 @@
+# Start/run the compose file
+docker compose up -d
+
+docker ps
+
+# go to pgadmin http://localhost:5050
+# register server
